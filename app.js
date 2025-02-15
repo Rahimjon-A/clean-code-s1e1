@@ -9,7 +9,7 @@
 
 var taskInput = document.getElementById('new-task') //Add a new task.
 var addButton = document.getElementsByTagName('button')[0] //first button
-var incompleteTaskHolder = document.getElementById('incompleteTasks') //ul of #incompleteTasks
+var incompleteTaskHolder = document.getElementById('incomplete-tasks') //ul of #incompleteTasks
 var completedTasksHolder = document.getElementById('completed-tasks') //completed-tasks
 
 //New task list item
@@ -35,13 +35,15 @@ var createNewTaskElement = function (taskString) {
   //Each elements, needs appending
   checkBox.type = 'checkbox'
   editInput.type = 'text'
-  editInput.className = 'task'
+  editInput.className = 'task-add'
+  deleteButtonImg.className = 'cross-pic'
+  listItem.className = 'list-item'
 
   editButton.innerText = 'Edit' //innerText encodes special characters, HTML does not.
   editButton.className = 'edit'
 
   deleteButton.className = 'delete'
-  deleteButtonImg.src = './remove.svg'
+  deleteButtonImg.src = 'remove.svg'
   deleteButton.appendChild(deleteButtonImg)
 
   //and appending.
@@ -55,8 +57,11 @@ var createNewTaskElement = function (taskString) {
 
 var addTask = function () {
   console.log('Add Task...')
+  const inputValue = taskInput.value.trim()
+  console.log(inputValue)
+
   //Create a new list item with the text from the #new-task:
-  if (!taskInput.value) return
+  if (!inputValue) return
   var listItem = createNewTaskElement(taskInput.value)
 
   //Append listItem to incompleteTaskHolder
@@ -74,10 +79,12 @@ var editTask = function () {
 
   var listItem = this.parentNode
 
-  var editInput = listItem.querySelector('input[type=text]')
+  console.log(listItem)
+
+  var editInput = listItem.querySelector('.task-add')
   var label = listItem.querySelector('label')
   var editBtn = listItem.querySelector('.edit')
-  var containsClass = listItem.classList.contains('editMode')
+  var containsClass = listItem.classList.contains('edit-mode')
   //If class of the parent is .editmode
   if (containsClass) {
     //switch to .editmode
@@ -90,7 +97,7 @@ var editTask = function () {
   }
 
   //toggle .editmode on the parent.
-  listItem.classList.toggle('editMode')
+  listItem.classList.toggle('edit-mode')
 }
 
 //Delete task.
